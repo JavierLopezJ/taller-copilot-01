@@ -4,17 +4,23 @@ from typing import Optional
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
-SECRET_KEY = "your-secret-key-change-in-production"
+import os
+
+SECRET_KEY = os.environ.get("SECRET_KEY", "change-me-in-production-use-a-long-random-value")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_SECONDS = 300
 REFRESH_TOKEN_EXPIRE_SECONDS = 3600
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+# Pre-computed bcrypt hash for "admin123".
+# In production, replace this with a real user store (database, LDAP, etc.).
+_ADMIN_HASHED_PASSWORD = "$2b$12$JRkArMrHGPdsa6nsLMjP1uF/Sma/OQg5bPChqthrwKaJYHwU69dyq"
+
 FAKE_USERS_DB = {
     "admin": {
         "username": "admin",
-        "hashed_password": pwd_context.hash("admin123"),
+        "hashed_password": _ADMIN_HASHED_PASSWORD,
     }
 }
 

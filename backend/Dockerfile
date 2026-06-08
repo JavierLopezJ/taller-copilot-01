@@ -18,4 +18,7 @@ COPY app/ ./app/
 
 EXPOSE 8000
 
+# SECRET_KEY should be overridden at runtime via environment variable.
+ENV SECRET_KEY="change-me-in-production-use-a-long-random-value"
+
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
